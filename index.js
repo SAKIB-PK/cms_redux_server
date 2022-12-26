@@ -9,6 +9,11 @@ const port = process.env.PORT || 5000
 // using middleware 
 require("dotenv").config()
 app.use(cors())
+app.use(
+    express.urlencoded({
+      extended: true
+    })
+  )
 app.use(express.json())
 //mongodb connection setup
 const ATLAS_URI=`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.rtuf5.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
@@ -50,6 +55,11 @@ async function main(){
             res.json(result)
         })
         // get request 
+        app.get("/posts",async(req,res)=>{
+            const results =await contents.find({}).toArray()
+            res.json(results)
+        })
+        // get request specific post
         app.get("/posts",async(req,res)=>{
             const results =await contents.find({}).toArray()
             res.json(results)
