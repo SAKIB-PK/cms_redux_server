@@ -30,16 +30,17 @@ async function main(){
         const contents = client.db("cms").collection("contents")
         // specific route update post
         app.put("/posts/:id",async(req,res)=>{
-            const id = req.params.id
-            const query = {_id:objectID(id)}
-            const docs = req.body
+            const id =await req.params.id
+            const query =await {_id:objectID(id)}
+            const docs =await req.body
             // this option instructs the method to create a document if no documents match the filter
-            const options = { upsert: true };
+            const options =await { upsert: true };
             // create a document that sets the plot of the movie
             const updateItem = {
                 $set:docs,
             };
             const result =await contents.updateOne(query,updateItem,options)
+            res.json(result)
         })
         // contents deleted request 
         app.delete('/posts/:id',async(req,res)=>{
